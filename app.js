@@ -3,8 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 
-let items = [];
-
+const items = [];
 mongoose.connect("mongodb://localhost:27017/");
 
 const itemSchema = {
@@ -12,19 +11,6 @@ const itemSchema = {
 }
 
 const Item = mongoose.model("Item", itemSchema);
-
-const item1 = new Item({
-    name: 'Pen'
-});
-
-Item.insertMany(item1, (err) => {
-    if (err) {
-        console.log(err);
-    }
-    else {
-        console.log("successfully saved");
-    }
-})
 
 app.set('view engine', 'ejs');
 
@@ -40,7 +26,14 @@ app.get('/', (req, res) => {
         month: "long"
     };
     let day = today.toLocaleDateString("en-Us", option);
-    res.render('list', { day: day, items: items });
+    Item.find({}, (err, items) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.render('list', { day: day, items: items });
+        }
+    })
 })
 
 app.post('/', (req, res) => {
