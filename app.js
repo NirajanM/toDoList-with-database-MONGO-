@@ -45,8 +45,15 @@ app.post('/', (req, res) => {
 })
 
 app.post("/removeItem", (req, res) => {
-    console.log("response received ");
-    console.log(req.body.checkbox);
+    const id = req.body.checkbox;
+    Item.findByIdAndRemove(id, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("item with id " + id + " deleted successfully from database");
+        }
+    })
     res.redirect('/');
 })
 app.listen(3000, () => {
