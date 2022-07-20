@@ -15,10 +15,15 @@
       <h1><%= day %></h1>
       </div>
       <div class="box">
-         <% for(let i=0;i<items.length;i++){ %>
+        <% items.forEach((item)=>{ %>
+          <form action="/removeItem" method="post">
+          <div class="item"><input type="checkbox" name="checkbox" value="<%= item.id %>" onChange="this.form.submit()"><p><%= item.name %></p></div>
+        </form>
+        <% }) %>
+         <!-- <% for(let i=0;i<items.length;i++){ %>
           <div class="item"><input type="checkbox"><p><%= items[i] %></p></div>
-         <% } %>
-      <form action="/" method="post">
+         <% } %> -->
+      <form action="/" id="addItem" method="post">
         <input type="text" name="toDo" placeholder="Work To Do" autocomplete="off"/>
         <button type="submit" name="button">+</button>
       </form>

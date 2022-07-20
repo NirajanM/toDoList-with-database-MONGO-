@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 
-const items = [];
 mongoose.connect("mongodb://localhost:27017/");
 
 const itemSchema = {
@@ -37,12 +36,19 @@ app.get('/', (req, res) => {
 })
 
 app.post('/', (req, res) => {
-    item = req.body.toDo;
-    items.push(item);
+    const itemName = req.body.toDo;
+    const item = new Item({
+        name: itemName
+    })
+    item.save();
     res.redirect('/');
 })
 
-
+app.post("/removeItem", (req, res) => {
+    console.log("response received ");
+    console.log(req.body.checkbox);
+    res.redirect('/');
+})
 app.listen(3000, () => {
     console.log("listening to port 3000");
 })
